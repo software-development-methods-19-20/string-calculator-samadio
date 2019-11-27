@@ -56,5 +56,17 @@ public class AddNumbersTest {
         }
     }
 
+    @Test
+    void crazy_separator(){
+        assertThat(StringCalculator.add("//[l][j][]]\n1l2j4]3"), is(10));
+    }
+
+
+    @Test
+    void multiple_long_separator(){
+        assertThat(StringCalculator.add("//[xyz][yyz][zzz]]\n1zzz2xyz4yyz3yyz2"), is(12));
+    }
+
+
 }
 
