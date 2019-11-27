@@ -68,10 +68,9 @@ public class AddNumbersTest {
 
 
     @Test
-    void multiple_long_separator(){
-        assertThat(StringCalculator.add("//[xyz][yyz][zzz]\n1zzz2xyz4yyz3yyz2"), is(12));
+    void multiple_long_separator_and_limit(){
+        assertThat(StringCalculator.add("//[xyz][yyz][zzz]\n1zzz2xyz4yyz3yyz2yyz1005"), is(12));
     }
-
 
 }
 
