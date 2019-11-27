@@ -26,12 +26,17 @@ public class StringCalculator {
         String safety1="";      //In case someone has the smart idea of using [
         String safety2="";      // or ] as separator
 
-        if(delimiter.contains("[[")){safety1="|\\"+"[";}
-        if(delimiter.contains("]]")){safety1="|\\"+"]";}
+        if(delimiter.contains("[[")){
+            safety1="|\\[";
+            delimiter=delimiter.replaceAll("\\[\\[\\]","");
+        }
+        if(delimiter.contains("]]")){
+            safety1="|\\"+"]";
+            delimiter=delimiter.replaceAll("\\["+"\\]"+"\\]","");
+        }
 
-        delimiter=delimiter.replaceAll("\\]",""); //delete all "]" characters
-
-        delimiter= String.join("|", delimiter.split("\\[")).substring(1);
+        delimiter=delimiter.replaceAll("\\[","").replaceAll("\\]","|"); //delete all "[" characters
+        delimiter=delimiter.substring(0,delimiter.length()-1);
         return delimiter+safety1+safety2;
 
         /*This does not work for now multiple patterns.It'd be far better and cleaner, but it's also difficult to adadpt in the maniac case separator==[ or ]
@@ -63,6 +68,8 @@ public class StringCalculator {
         //1 element case, eventually someone can define a not used separator
         if(numbers.length()==1) return Integer.valueOf(numbers);
 
+
+        System.out.print(delimiters);
 
         String[] data=numbers.split(delimiters);
 

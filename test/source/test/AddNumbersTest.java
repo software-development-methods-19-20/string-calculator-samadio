@@ -64,7 +64,7 @@ public class AddNumbersTest {
 
     @Test
     void multiple_long_separator(){
-        assertThat(StringCalculator.add("//[xyz][yyz][zzz]]\n1zzz2xyz4yyz3yyz2"), is(12));
+        assertThat(StringCalculator.add("//[xyz][yyz][zzz]\n1zzz2xyz4yyz3yyz2"), is(12));
     }
 
 
