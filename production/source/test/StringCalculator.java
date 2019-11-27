@@ -9,37 +9,37 @@ public class StringCalculator {
 
     private static Integer lim=1001;
 
-    private static IntStream NumberStream(String[] data) {
+    private static IntStream numberStream(String[] data) {
         return Arrays.stream(data).mapToInt(i -> Integer.valueOf(i)).filter(x->x<lim);
     }
 
 
     private static List<Integer> negatives(String[] data) {
-        return NumberStream(data).filter(x -> x < 0).boxed().collect(Collectors.toList());
+        return numberStream(data).filter(x -> x < 0).boxed().collect(Collectors.toList());
     }
 
-    private static boolean single_custom_separator(String s){
+    private static boolean singleCustomSeparator(String s){
         return s.contains("[")==false;
     }
 
-    private static String delete_last_square_bracket(String s){
+    private static String deleteLastSquareBracket(String s){
         return s.substring(0,s.length()-1);
     }
 
-    private static String extract_delimiters_declaration(String s){
+    private static String extractDelimitersDeclaration(String s){
         return s.substring(2, s.indexOf("\n"));
     }
 
-    private static String exclude_delimiters_declaration(String numbers){
+    private static String excludeDelimitersDeclaration(String numbers){
         return numbers.substring(numbers.indexOf("\n")+1,numbers.length());
     }
 
 
 
-    private static String set_delimiters(String numbers) {
-        String delimiter = extract_delimiters_declaration(numbers);
+    private static String setDelimiters(String numbers) {
+        String delimiter = extractDelimitersDeclaration(numbers);
 
-        if(single_custom_separator(delimiter)) {return delimiter;}
+        if(singleCustomSeparator(delimiter)) {return delimiter;}
 
         String bracket1="";      //In case someone has the brilliant idea of using [
         String bracket2="";      // or ] as separator
@@ -53,7 +53,7 @@ public class StringCalculator {
             delimiter=delimiter.replaceAll("\\["+"\\]"+"\\]","");
         }
 
-        delimiter=delete_last_square_bracket(delimiter).replaceAll("\\[","").replaceAll("\\]","|");
+        delimiter=deleteLastSquareBracket(delimiter).replaceAll("\\[","").replaceAll("\\]","|");
         return delimiter+bracket1+bracket2;
 
     }
@@ -66,8 +66,8 @@ public class StringCalculator {
 
         String delimiters= ",|\n" ;
         if (numbers.startsWith("//")) {
-            delimiters = set_delimiters(numbers);
-            numbers= exclude_delimiters_declaration(numbers);
+            delimiters = setDelimiters(numbers);
+            numbers= excludeDelimitersDeclaration(numbers);
         }
 
         if(numbers.length()==1) return Integer.valueOf(numbers);
@@ -79,7 +79,7 @@ public class StringCalculator {
             throw new IllegalArgumentException("Negatives not allowed: "+ neg.toString());
         }
 
-        return NumberStream(data).sum();
+        return numberStream(data).sum();
 
     }
 

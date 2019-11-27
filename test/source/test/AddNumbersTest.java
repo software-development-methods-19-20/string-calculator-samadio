@@ -18,7 +18,7 @@ public class AddNumbersTest {
     }
 
     @Test
-    void OneNumber() {
+    void oneNumber() {
         assertThat(StringCalculator.add("1"), is(1));
     }
 
@@ -33,22 +33,22 @@ public class AddNumbersTest {
     }
 
     @Test
-    void moreseparators(){
+    void moreSeparators(){
         assertThat(StringCalculator.add("1,2,3\n5,0"), is(11));
     }
 
     @Test
-    void customsep(){
+    void customSep(){
         assertThat(StringCalculator.add("//;\n1;2;4"), is(7));
     }
 
     @Test
-    void useless_customsep(){
+    void uselessCustomsep(){
         assertThat(StringCalculator.add("//;\n1"), is(1));
     }
 
     @Test
-    void negative_test(){
+    void negativeTest(){
         try { StringCalculator.add("//;\n1;-1;-12;-3");
         fail();}
         catch (IllegalArgumentException err){
@@ -57,18 +57,18 @@ public class AddNumbersTest {
     }
 
     @Test
-    void crazy_separator(){
+    void crazySeparator(){
         assertThat(StringCalculator.add("//[l][j][]]\n1l2j4]3"), is(10));
     }
 
     @Test
-    void long_separator(){
+    void longSeparator(){
         assertThat(StringCalculator.add("//[::]\n1::2"), is(3));
     }
 
 
     @Test
-    void multiple_long_separator_and_limit(){
+    void multipleLongSeparatorLimit(){
         assertThat(StringCalculator.add("//[xyz][yyz][zzz]\n1zzz2xyz4yyz3yyz2yyz1005"), is(12));
     }
 
