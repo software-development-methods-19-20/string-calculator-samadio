@@ -10,18 +10,24 @@ import java.util.stream.IntStream;
 
 public class StringCalculator {
 
+    private static Integer lim=1000;
+
+    public void set_lim(Integer i){
+        this.lim=i;
+    }
+
     private static List<Integer> negatives(String[] data) {
         return NumberStream(data).filter(x -> x < 0).boxed().collect(Collectors.toList());
     }
 
     private static IntStream NumberStream(String[] data) {
-        return Arrays.stream(data).mapToInt(i -> Integer.valueOf(i));
+        return Arrays.stream(data).mapToInt(i -> Integer.valueOf(i)).filter(x->x<lim);
     }
 
     private static String set_delimiters(String numbers) {
-        String delimiter = numbers.substring(2, numbers.indexOf("\n")); //between // and \n both excluded
+        String delimiter = numbers.substring(2, numbers.indexOf("\n"));
 
-        if(delimiter.contains("[")==false) {return delimiter;} //1 char single delimiter
+        if(delimiter.contains("[")==false) {return delimiter;}
 
         String safety1="";      //In case someone has the smart idea of using [
         String safety2="";      // or ] as separator
@@ -35,17 +41,9 @@ public class StringCalculator {
             delimiter=delimiter.replaceAll("\\["+"\\]"+"\\]","");
         }
 
-        delimiter=delimiter.replaceAll("\\[","").replaceAll("\\]","|"); //delete all "[" characters
+        delimiter=delimiter.replaceAll("\\[","").replaceAll("\\]","|");
         delimiter=delimiter.substring(0,delimiter.length()-1);
         return delimiter+safety1+safety2;
-
-        /*This does not work for now multiple patterns.It'd be far better and cleaner, but it's also difficult to adadpt in the maniac case separator==[ or ]
-
-        Pattern p = Pattern.compile(".*\\[ *(.*) *\\].*");
-        Matcher m = p.matcher(delimiter);
-        m.find();
-        return m.group(1);
-         */
 
     }
 
@@ -60,16 +58,12 @@ public class StringCalculator {
         if(numbers.isEmpty()) return 0;
 
         String delimiters= ",|\n" ;
-        if (numbers.startsWith("//")) {  //if a new delimiter is given, redefine delimiters and numbers
+        if (numbers.startsWith("//")) {
             delimiters = set_delimiters(numbers);
             numbers= exclude_delimiters_declaration(numbers);
         }
 
-        //1 element case, eventually someone can define a not used separator
         if(numbers.length()==1) return Integer.valueOf(numbers);
-
-
-        System.out.print(delimiters);
 
         String[] data=numbers.split(delimiters);
 
@@ -78,8 +72,7 @@ public class StringCalculator {
             throw new IllegalArgumentException("Negatives not allowed: "+ neg.toString());
         }
 
-
-        return NumberStream(data).filter(x->x<1001).sum();
+        return NumberStream(data).sum();
 
     }
 

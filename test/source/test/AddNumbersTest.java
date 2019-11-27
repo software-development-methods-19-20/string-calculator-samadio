@@ -61,6 +61,11 @@ public class AddNumbersTest {
         assertThat(StringCalculator.add("//[l][j][]]\n1l2j4]3"), is(10));
     }
 
+    @Test
+    void long_separator(){
+        assertThat(StringCalculator.add("//[::]\n1::2"), is(3));
+    }
+
 
     @Test
     void multiple_long_separator(){
