@@ -18,13 +18,18 @@ public class StringCalculator {
             numbers= excludeDelimitersDeclaration(numbers);
         }
 
-        String[] data=numbers.split(delimiters);
+        String[] data=parseData(numbers,delimiters);
 
         checkNegatives(data);
 
         return numberStream(data).sum();
 
     }
+
+    private static String[] parseData(String numbers, String delimiters) {
+        return numbers.split(delimiters);
+    }
+
 
     private static  void checkNegatives(String [] data){
         List<Integer> neg=negatives(data);
