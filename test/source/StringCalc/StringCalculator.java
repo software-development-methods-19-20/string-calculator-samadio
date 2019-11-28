@@ -8,11 +8,12 @@ import java.util.stream.IntStream;
 public class StringCalculator {
 
     private static Integer lim=1001;
+    private static String default_delimiters=",|\n";
 
     public static int add(String numbers) {
         if(numbers.isEmpty()) return 0;
 
-        String delimiters= ",|\n" ;
+        String delimiters= default_delimiters ;
         if (numbers.startsWith("//")) {
             delimiters = setDelimiters(numbers);
             numbers= excludeDelimitersDeclaration(numbers);
@@ -49,28 +50,33 @@ public class StringCalculator {
     private static String setDelimiters(String numbers) {
         String delimiter = extractDelimitersDeclaration(numbers);
 
-        if(singleCustomSeparator(delimiter)) {
-            return checkForSquares(delimiter);
+        if(multipleCustomSeparator(delimiter)) {
+
+            String bracket1="";      //In case someone has the brilliant idea of using [
+            String bracket2="";      // or ] as separator
+
+            if(delimiter.contains("[[")){
+                bracket1="|\\[";
+                delimiter=delimiter.replaceAll("\\[\\[\\]","");
+            }
+            if(delimiter.contains("]]")){
+                bracket2="|\\]";
+                delimiter=delimiter.replaceAll("\\["+"\\]"+"\\]","");
+            }
+
+            delimiter=deleteLastSquareBracket(delimiter).replaceAll("\\[","").replaceAll("\\]","|");
+            return delimiter+bracket1+bracket2;
+
         }
 
-        String bracket1="";      //In case someone has the brilliant idea of using [
-        String bracket2="";      // or ] as separator
-
-        if(delimiter.contains("[[")){
-            bracket1="|\\[";
-            delimiter=delimiter.replaceAll("\\[\\[\\]","");
-        }
-        if(delimiter.contains("]]")){
-            bracket2="|\\]";
-            delimiter=delimiter.replaceAll("\\["+"\\]"+"\\]","");
-        }
-
-        delimiter=deleteLastSquareBracket(delimiter).replaceAll("\\[","").replaceAll("\\]","|");
-        return delimiter+bracket1+bracket2;
-
+        return checkForSquares(delimiter);
     }
-    private static boolean singleCustomSeparator(String s){
-        return !(   (s.contains("[")) &&  (s.contains("]"))    );
+
+
+
+
+    private static boolean multipleCustomSeparator(String s){
+        return (s.contains("[")) &&  (s.contains("]") );
     }
 
     private static String checkForSquares(String delimiter) {
