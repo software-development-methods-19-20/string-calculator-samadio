@@ -18,17 +18,19 @@ public class StringCalculator {
             numbers= excludeDelimitersDeclaration(numbers);
         }
 
-        if(numbers.length()==1) return Integer.valueOf(numbers);
-
         String[] data=numbers.split(delimiters);
 
-        List<Integer> neg = negatives(data);
-        if (neg.isEmpty()==false) {
-            throw new IllegalArgumentException("Negatives not allowed: "+ neg.toString());
-        }
+        checkNegatives(data);
 
         return numberStream(data).sum();
 
+    }
+
+    private static  void checkNegatives(String [] data){
+        List<Integer> neg=negatives(data);
+        if (neg.size()>0) {
+            throw new IllegalArgumentException("Negatives not allowed: "+ neg.toString());
+        }
     }
 
     private static List<Integer> negatives(String[] data) {
@@ -42,7 +44,9 @@ public class StringCalculator {
     private static String setDelimiters(String numbers) {
         String delimiter = extractDelimitersDeclaration(numbers);
 
-        if(singleCustomSeparator(delimiter)) {return delimiter;}
+        if(singleCustomSeparator(delimiter)) {
+            return checkForSquares(delimiter);
+        }
 
         String bracket1="";      //In case someone has the brilliant idea of using [
         String bracket2="";      // or ] as separator
@@ -60,9 +64,12 @@ public class StringCalculator {
         return delimiter+bracket1+bracket2;
 
     }
-
     private static boolean singleCustomSeparator(String s){
-        return s.contains("[")==false;
+        return !(   (s.contains("[")) &&  (s.contains("]"))    );
+    }
+
+    private static String checkForSquares(String delimiter) {
+        return delimiter.replaceAll("\\[","\\"+"\\"+"[").replaceAll("\\]","\\"+"\\"+"[");
     }
 
     private static String deleteLastSquareBracket(String s){

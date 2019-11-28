@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddNumbersTest {
 
-
     @Test
     void emptyString(){
         //assertEquals(0,StringCalculator.add(""));  //equivalent to
@@ -39,7 +38,7 @@ public class AddNumbersTest {
 
     @Test
     void customSep(){
-        assertThat(StringCalculator.add("//;\n1;2;4"), is(7));
+        assertThat(StringCalculator.add("//[\n1[2[4"), is(7));
     }
 
     @Test
