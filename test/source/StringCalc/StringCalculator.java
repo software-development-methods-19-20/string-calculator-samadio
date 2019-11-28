@@ -1,4 +1,4 @@
-package test;
+package StringCalc;
 
 import java.util.Arrays;
 import java.util.List;
